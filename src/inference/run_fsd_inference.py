@@ -22,6 +22,8 @@ class SteeringAnglePredictor:
     def __init__(self, model_path: str):
         tf.reset_default_graph()
         from models import model
+        import importlib
+        importlib.reload(model)
         self.model = model
 
         self.sess = tf.InteractiveSession()
@@ -141,16 +143,16 @@ class SelfDrivingCarSimulator:
 
 
 if __name__ == "__main__":
-    steering_model_path = os.path.join(BASE_DIR, "saved_model", "steering_angle", "50epoch", "model.ckpt")
-    steering_predictor = SteeringAnglePredictor(steering_model_path)
+    steering_model_path = os.path.join(BASE_DIR, "saved_model", "regression_model", "50epoch", "model.ckpt")
+    # steering_predictor = SteeringAnglePredictor(steering_model_path)
     image_segmentation = ImageSegmentation(
-        "saved_models/lane_segmentation_model/best_yolo11_lane_segmentation.pt",
-        "saved_models/objects_detection_model/yolo11s-seg.pt"
+        os.path.join(BASE_DIR, "saved_model", "lane_segmentation_model", "best.pt"),
+        os.path.join(BASE_DIR, "saved_model", "object_detection_model", "yolo11m-seg.pt")
     )
     simulator = SelfDrivingCarSimulator(
-        steering_predictor,
+        SteeringAnglePredictor(steering_model_path),
         image_segmentation,
-        "data/driving_dataset",
-        "data/steering_wheel_img.jpg"
+        os.path.join(BASE_DIR, "data", "driving_dataset"),
+        os.path.join(BASE_DIR, "data", "steering_wheel_image.jpg")
     )
     simulator.start_simulation()
