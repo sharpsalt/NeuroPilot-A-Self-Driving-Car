@@ -3,6 +3,8 @@ import os
 import cv2
 from ultralytics import YOLO
 
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
+
 
 def smooth_line(new_line, old_line, alpha=0.8):
     """
@@ -167,6 +169,9 @@ def display_images(input_folder, display_time=20):
     """
     Original lane detection display function.
     """
+    if not os.path.isdir(input_folder):
+        raise FileNotFoundError(f"Input folder not found: {input_folder}")
+
     RIGHT_LANE_TIMEOUT_FRAMES = 5
     consecutive_right_missing = 0
 
@@ -216,6 +221,9 @@ def display_images_with_segmentation(input_folder, display_time=20):
     and then runs YOLO object segmentation on the original image. The resulting segmentation
     is blended with the lane detection output.
     """
+    if not os.path.isdir(input_folder):
+        raise FileNotFoundError(f"Input folder not found: {input_folder}")
+
     RIGHT_LANE_TIMEOUT_FRAMES = 5
     consecutive_right_missing = 0
 
@@ -223,7 +231,19 @@ def display_images_with_segmentation(input_folder, display_time=20):
                    if img.endswith(".jpg") or img.endswith(".png")]
     image_files.sort(key=lambda x: int(x.split('.')[0]))
     lane_detector = LaneDetector(apply_white_mask=True, right_white_threshold=1000)
-    yolo_model = YOLO('../../saved_models/object_detection/yolo11s-seg.pt')
+
+    candidate_model_paths = [
+        os.path.join(BASE_DIR, "saved_model", "object_detection_model", "yolo11m-seg.pt"),
+        os.path.join(BASE_DIR, "saved_model", "object_detection_model", "yolo11n.pt"),
+    ]
+    yolo_model_path = next((path for path in candidate_model_paths if os.path.exists(path)), None)
+    if yolo_model_path is None:
+        raise FileNotFoundError(
+            "No object detection model found. Expected one of: "
+            + ", ".join(candidate_model_paths)
+        )
+
+    yolo_model = YOLO(yolo_model_path)
     smoothed_left = None
     smoothed_right = None
     smoothing_alpha = 0.8
@@ -268,7 +288,7 @@ def display_images_with_segmentation(input_folder, display_time=20):
     cv2.destroyAllWindows()
 
 if __name__ == "__main__":
-    input_folder = "../../data/driving_dataset"
+    input_folder = os.path.join(BASE_DIR, "data", "driving_dataset")
     # Uncomment the next line to run only lane detection:
     # display_images(input_folder, display_time=10)
     # To run lane detection with YOLO segmentation overlay:
