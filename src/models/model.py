@@ -1,6 +1,6 @@
 import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
-import scrapy
+# import scrapy
 
 def weight_variable(shape):
     initial=tf.truncated_normal(shape,stddev=0.1)
