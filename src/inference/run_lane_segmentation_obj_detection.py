@@ -209,7 +209,10 @@ def display_images(input_folder, display_time=20):
         final_image = lane_detector.draw_lane_lines(processed_image.copy(),
                                                     (smoothed_left, smoothed_right))
 
-        cv2.imshow('Lane Detection', final_image)
+        scale_factor = 1.5
+        display_image = cv2.resize(final_image, None, fx=scale_factor, fy=scale_factor)
+        cv2.namedWindow('Lane Detection', cv2.WINDOW_NORMAL)
+        cv2.imshow('Lane Detection', display_image)
         print(f"Displaying {image_file}")
         if cv2.waitKey(display_time) == ord('q'):
             break
@@ -281,7 +284,10 @@ def display_images_with_segmentation(input_folder, display_time=20):
         # Blend the lane detection result with the YOLO segmentation overlay.
         combined_output = cv2.addWeighted(lane_output, 0.6, seg_output, 0.4, 0)
 
-        cv2.imshow('Lane Detection with YOLO Segmentation', combined_output)
+        scale_factor = 1.5
+        display_output = cv2.resize(combined_output, None, fx=scale_factor, fy=scale_factor)
+        cv2.namedWindow('Lane Detection with YOLO Segmentation', cv2.WINDOW_NORMAL)
+        cv2.imshow('Lane Detection with YOLO Segmentation', display_output)
         print(f"Displaying {image_file}")
         if cv2.waitKey(display_time) == ord('q'):
             break

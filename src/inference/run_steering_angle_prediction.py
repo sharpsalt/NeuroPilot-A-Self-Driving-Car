@@ -100,7 +100,11 @@ class DrivingSimulator:
     
     def display_frames(self,full_image,smoothed_angle):
         #disply the main driving frame
-        cv2.imshow("Driving Frame",full_image)
+        scale_factor = 1.5
+        display_image = cv2.resize(full_image, None, fx=scale_factor, fy=scale_factor)
+        cv2.namedWindow("Driving Frame", cv2.WINDOW_NORMAL)
+        cv2.imshow("Driving Frame", display_image)
+        
         #display the steering wheel frame
         cols,rows=self.steering_image.shape[:2]
 
@@ -115,8 +119,12 @@ class DrivingSimulator:
         font=cv2.FONT_HERSHEY_SIMPLEX
         label=f"Steering Angle: {smoothed_angle:.2f} degrees"
         cv2.putText(steering_display_bgr,label,(10,40),font,0.7,(0,255,0),2,cv2.LINE_AA)
+        
+        #Scale up steering wheel display
+        display_steering = cv2.resize(steering_display_bgr, None, fx=scale_factor, fy=scale_factor)
+        cv2.namedWindow("Steering Wheel", cv2.WINDOW_NORMAL)
         #Show the steering wheel seperately
-        cv2.imshow("Steering Wheel",steering_display_bgr)
+        cv2.imshow("Steering Wheel", display_steering)
 
 if __name__=="__main__":
     model_path = os.path.join(BASE_DIR, 'saved_model', 'regression_model', '50epoch', 'model.ckpt')
