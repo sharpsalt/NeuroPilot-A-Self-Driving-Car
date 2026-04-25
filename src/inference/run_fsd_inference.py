@@ -137,9 +137,21 @@ class SelfDrivingCarSimulator:
 
         M = cv2.getRotationMatrix2D((self.cols // 2, self.rows // 2), -self.smoothed_angle, 1)
         dst = cv2.warpAffine(self.img, M, (self.cols, self.rows))
-        cv2.imshow("Original Frame", full_image)
-        cv2.imshow("Segmented Frame", segmented_image)
-        cv2.imshow("Steering Wheel", dst)
+        
+        # Scale up display images for better visibility
+        scale_factor = 1.5
+        display_original = cv2.resize(full_image, None, fx=scale_factor, fy=scale_factor)
+        display_segmented = cv2.resize(segmented_image, None, fx=scale_factor, fy=scale_factor)
+        display_steering = cv2.resize(dst, None, fx=scale_factor, fy=scale_factor)
+        
+        # Create resizable windows
+        cv2.namedWindow("Original Frame", cv2.WINDOW_NORMAL)
+        cv2.namedWindow("Segmented Frame", cv2.WINDOW_NORMAL)
+        cv2.namedWindow("Steering Wheel", cv2.WINDOW_NORMAL)
+        
+        cv2.imshow("Original Frame", display_original)
+        cv2.imshow("Segmented Frame", display_segmented)
+        cv2.imshow("Steering Wheel", display_steering)
 
 
 if __name__ == "__main__":
