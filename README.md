@@ -602,4 +602,138 @@ The addition of the second term penalizes the neural network for assigning exces
 3. **Temporal Awareness:** Upgrade the CNN to a 3D-CNN or stack a Convolutional LSTM on top of the Dense layers. This would give the car "memory" of previous frames, making it resilient to lane lines temporarily disappearing.
 
 ---
+Here's the improved and restructured version of Sections 11 and 12, written for clarity, consistency, and a professional look.
+
+---
+
+## 11. Screenshots
+
+### 11.1 Full FSD Inference (Steering + Lane Detection + Object Detection)
+
+Run the complete pipeline with:
+
+```bash
+python src/inference/run_fsd_inference.py
+```
+
+**Output examples:**
+
+<img width="1919" height="1079" alt="Screenshot 2026-04-26 035642" src="https://github.com/user-attachments/assets/3b940d5b-89c5-4887-b5e8-43cb08477746" />
+
+<img width="1919" height="1079" alt="Screenshot 2026-04-26 035632" src="https://github.com/user-attachments/assets/f22dd33f-5123-4bc0-9f46-1740a251a1d4" />
+
+---
+
+### 11.2 Steering Angle Only
+
+Run just the steering angle predictor:
+
+```bash
+python src/inference/run_steering_angle_prediction.py
+```
+
+**Output examples:**
+
+<img width="1919" height="1079" alt="Screenshot 2026-04-26 035416" src="https://github.com/user-attachments/assets/84b0eaa6-203e-41ab-abcf-6cd1e771bb7f" />
+
+<img width="1920" height="1080" alt="Screenshot 2026-04-26 035405" src="https://github.com/user-attachments/assets/92ffe138-9d9a-49d5-9f89-2522c4644044" />
+
+---
+
+## 12. Instructions for Running
+
+Follow these steps to set up and run the project.
+
+### 12.1 Clone the Repository
+
+```bash
+git clone https://github.com/sharpsalt/NeuroPilot-A-Self-Driving-Car.git
+cd NeuroPilot-A-Self-Driving-Car
+```
+
+### 12.2 Set Up the Environment
+
+#### Windows (using Anaconda)
+
+1. Make sure [Anaconda](https://www.anaconda.com/download) is installed.
+2. Create and activate a new Conda environment:
+
+   ```bash
+   conda create -n tf python=3.10
+   conda activate tf
+   ```
+
+3. Install the required packages:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+#### Linux (using `venv`)
+
+1. Create a virtual environment:
+
+   ```bash
+   python3 -m venv tf
+   ```
+
+2. Activate it:
+
+   ```bash
+   source tf/bin/activate
+   ```
+
+3. Install dependencies:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+### 12.3 Running the Project
+
+After setting up the environment, choose one of the two inference options.
+
+#### Option 1: Full FSD Inference
+
+This runs the complete system including:
+
+- Steering angle prediction
+- Lane segmentation
+- Object detection overlay
+
+**Command:**
+
+- **Windows:**
+
+  ```bash
+  python src/inference/run_fsd_inference.py
+  ```
+
+- **Linux:**
+
+  ```bash
+  python3 src/inference/run_fsd_inference.py
+  ```
+
+#### Option 2: Steering Angle Only
+
+This runs only the steering angle predictor (no lane or object detection).
+
+**Command:**
+
+- **Windows:**
+
+  ```bash
+  python src/inference/run_steering_angle_prediction.py
+  ```
+
+- **Linux:**
+
+  ```bash
+  python3 src/inference/run_steering_angle_prediction.py
+  ```
+
+---
+
+Let me know if you’d like to also standardise the remaining sections of the README.
 *NeuroPilot - Authored and documented comprehensively for research, educational reference, and scalable autonomous simulation.*
