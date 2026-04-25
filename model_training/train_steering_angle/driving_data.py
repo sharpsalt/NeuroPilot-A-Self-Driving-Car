@@ -323,7 +323,6 @@ def LoadValBatch(batch_size):
 
 
 # -----------------------------------------------------------------------------
-# Legacy implementation preserved (commented) as requested by user.
 # -----------------------------------------------------------------------------
 # import cv2
 # import os
