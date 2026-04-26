@@ -735,5 +735,4 @@ This runs only the steering angle predictor (no lane or object detection).
 
 ---
 
-Let me know if you’d like to also standardise the remaining sections of the README.
 *NeuroPilot - Authored and documented comprehensively for research, educational reference, and scalable autonomous simulation.*
